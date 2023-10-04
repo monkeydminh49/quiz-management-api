@@ -57,6 +57,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>quiz-api</finalName>
 	</build>
 
 </project>
