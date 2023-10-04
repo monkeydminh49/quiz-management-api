@@ -1,7 +1,7 @@
-FROM openjdk:21
+FROM openjdk:20
 MAINTAINER MinhDunk
 EXPOSE 8080
-ADD target/quiz-api.jar quiz-api.jar
+COPY target/quiz-api.jar quiz-api.jar
 LABEL authors="MinhDunk"
 
 ENTRYPOINT ["java", "-jar", "quiz-api.jar"]
