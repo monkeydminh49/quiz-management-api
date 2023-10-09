@@ -4,7 +4,7 @@
 #COPY src ./src
 #RUN mvn clean install
 
-FROM openjdk:20
+FROM openjdk:21
 MAINTAINER MinhDunk
 EXPOSE 8080
 #WORKDIR /app
