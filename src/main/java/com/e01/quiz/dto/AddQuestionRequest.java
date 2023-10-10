@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateQuestionRequest {
+public class AddQuestionRequest {
     private Long id;
     private Long testId;
 }
