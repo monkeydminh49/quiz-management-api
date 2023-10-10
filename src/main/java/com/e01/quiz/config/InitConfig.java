@@ -29,7 +29,7 @@ public class InitConfig {
 //                admin.setRoles(List.of(UserRole.ROLE_ADMIN));
                 userRepository.save(admin);
             }
-            Question ques = questionRepository.findById((00011230L)).orElse(null);
+            Question ques = questionRepository.findById((1L)).orElse(null);
             if (ques == null){
                 ques= new Question();
                 ques.setId(101L);
