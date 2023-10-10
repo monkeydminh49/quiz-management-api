@@ -1,0 +1,25 @@
+bezkoder:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: http://13.212.194.205
+spring:
+  datasource:
+    url: jdbc:postgresql://dpg-cke4rqtjhfbs739pckig-a.oregon-postgres.render.com:5432/quizdb_79io
+    username: quizdb_79io_user
+    password: p3PSWvr2uCPwQaDsrSYLCPLRw13icrA4
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: SignLanguage
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
