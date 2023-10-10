@@ -1,5 +1,5 @@
 FROM maven:3.9.4-amazoncorretto-21 AS build
-WORKDIR /app
+#WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean install -DSkipTests
@@ -7,8 +7,8 @@ RUN mvn clean install -DSkipTests
 FROM openjdk:21
 MAINTAINER MinhDunk
 EXPOSE 8080
-WORKDIR /app
-COPY --from=build /app/target/quiz-api.jar quiz-api.jar
+#WORKDIR /app
+COPY --from=build target/quiz-api.jar quiz-api.jar
 LABEL authors="MinhDunk"
 
 ENTRYPOINT ["java", "-jar", "quiz-api.jar"]
