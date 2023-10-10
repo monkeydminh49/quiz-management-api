@@ -21,7 +21,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @GetMapping("/Question")
+    @GetMapping("/question")
     public List<QuestionResponse> getQuestion() {
         List<Question> questions = questionService.getAllQuestions();
 
@@ -31,7 +31,7 @@ public class QuestionController {
                 .build()).toList();
     }
 
-    @GetMapping("/Question/{id}")
+    @GetMapping("/question/{id}")
     public QuestionResponse getQuestionById(@PathVariable Long id) {
         Question question = questionService.getQuestionById(id);
 
