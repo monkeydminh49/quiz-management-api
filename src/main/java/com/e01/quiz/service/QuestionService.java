@@ -8,12 +8,26 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public abstract class QuestionService {
-    abstract QuestionResponse createQuestion(QuestionResponse questionResponse);
-    public abstract Set<Questiondto> getAllQuestions();
-    abstract QuestionResponse getQuestionById(long id);
-    abstract QuestionResponse updateAnswer(AnswerResponse answerDto, long id);
-    abstract String deleteQuestionById(long id);
+public class QuestionService {
+    QuestionResponse createQuestion(QuestionResponse questionResponse) {
+        return null;
+    }
+
+    public Set<Questiondto> getAllQuestions() {
+        return null;
+    }
+
+    public QuestionResponse getQuestionById(long id) {
+        return null;
+    }
+
+    public QuestionResponse updateAnswer(AnswerResponse answerDto, long id) {
+        return null;
+    }
+
+    public String deleteQuestionById(long id) {
+        return null;
+    }
 
 
 }
