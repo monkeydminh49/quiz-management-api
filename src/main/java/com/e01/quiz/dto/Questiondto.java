@@ -1,20 +1,11 @@
 package com.e01.quiz.dto;
 
-
-import com.e01.quiz.entity.Answer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.Set;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class QuestionResponse {
+
+public class Questiondto {
     private long Id;
     private String questionContent;
-    private Set<Answer> answers;
+    private Set<Answerdto> answers;
 
     public long getId() {
         return Id;
@@ -32,12 +23,11 @@ public class QuestionResponse {
         this.questionContent = questionContent;
     }
 
-    public Set<Answer> getAnswers() {
+    public Set<Answerdto> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Set<Answer> answers) {
+    public void setAnswers(Set<Answerdto> answers) {
         this.answers = answers;
     }
-
 }

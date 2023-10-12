@@ -1,29 +1,19 @@
 package com.e01.quiz.service;
 
 
-import com.e01.quiz.entity.Question;
-import com.e01.quiz.repository.QuestionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.e01.quiz.dto.AnswerResponse;
+import com.e01.quiz.dto.QuestionResponse;
+import com.e01.quiz.dto.Questiondto;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import java.util.*;
 
 @Service
-public class QuestionService {
-    @Autowired
-    private QuestionRepository repository;
-
-    public List<Question> getAllQuestions() {
-        return repository.findAll();
-    }
-
-    public Question getQuestionById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Invalid Question "));
-    }
-
-    public Question getTestIdById(Long testId) {
-        return repository.findById(testId).orElseThrow(() -> new RuntimeException("Invalid Test"));
-    }
+public abstract class QuestionService {
+    abstract QuestionResponse createQuestion(QuestionResponse questionResponse);
+    public abstract Set<Questiondto> getAllQuestions();
+    abstract QuestionResponse getQuestionById(long id);
+    abstract QuestionResponse updateAnswer(AnswerResponse answerDto, long id);
+    abstract String deleteQuestionById(long id);
 
 
 }

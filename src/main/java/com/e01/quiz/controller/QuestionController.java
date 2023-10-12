@@ -21,24 +21,6 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @GetMapping("/Question")
-    public List<QuestionResponse> getQuestion() {
-        List<Question> questions = questionService.getAllQuestions();
 
-        return questions.stream().map(question -> QuestionResponse.builder()
-                .id(question.getId())
-                .testId(question.getTestId())
-                .build()).toList();
-    }
-
-    @GetMapping("/Question/{id}")
-    public QuestionResponse getQuestionById(@PathVariable Long id) {
-        Question question = questionService.getQuestionById(id);
-
-        return QuestionResponse.builder()
-                .id(question.getId())
-                .testId(question.getTestId())
-                .build();
-    }
 }
 
