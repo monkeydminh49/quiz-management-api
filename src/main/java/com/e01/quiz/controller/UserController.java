@@ -1,14 +1,15 @@
 package com.e01.quiz.controller;
 
-import com.e01.quiz.dto.MappingResponse;
 import com.e01.quiz.dto.UserResponse;
 import com.e01.quiz.entity.User;
 import com.e01.quiz.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,13 +22,12 @@ public class UserController {
 
     @GetMapping("/user")
     public List<UserResponse> getUsers() {
-        List<User> users = userService.getAllUsers();
+        List<User> users = userService. getAllUsers();
 
         return users.stream().map(user -> UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .build()).toList();
     }
 
@@ -39,7 +39,6 @@ public class UserController {
                 .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .build();
     }
 

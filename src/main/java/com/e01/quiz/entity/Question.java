@@ -2,10 +2,7 @@ package com.e01.quiz.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Builder
@@ -15,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(
-        name = "Question"
+        name = "QUESTION"
 )
 public class Question {
     @Id
@@ -23,5 +20,9 @@ public class Question {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
-    private Long testId;
+    private String question;
+
+    @ManyToOne
+    @JoinColumn(name="test_id", nullable=false)
+    private Test test;
 }

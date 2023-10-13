@@ -1,12 +1,13 @@
 package com.e01.quiz.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Builder
 @Data
@@ -15,18 +16,17 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(
-        name = "USERS"
-//        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
+        name = "TEST"
 )
-public class User {
+public class Test {
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
-    private String name;
-    @Column(unique = true)
-    private String username;
-    private String password;
-    private boolean isAdmin;
+    private String title;
+    @OneToMany(mappedBy = "test")
+    private List<Question> questions;
+
+
 }

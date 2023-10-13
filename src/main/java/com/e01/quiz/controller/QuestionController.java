@@ -1,15 +1,16 @@
 package com.e01.quiz.controller;
 
-import com.e01.quiz.dto.QuestionResponse;
-
+import com.e01.quiz.dto.QuestionDTO;
 import com.e01.quiz.entity.Question;
-
 import com.e01.quiz.service.QuestionService;
-
+import com.e01.quiz.util.Mapper;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,25 +21,21 @@ import java.util.List;
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private Mapper mapper;
 
     @GetMapping("/question")
-    public List<QuestionResponse> getQuestion() {
+    public List<QuestionDTO> getQuestion() {
         List<Question> questions = questionService.getAllQuestions();
 
-        return questions.stream().map(question -> QuestionResponse.builder()
-                .id(question.getId())
-                .testId(question.getTestId())
-                .build()).toList();
+        return questions.stream().map(mapper::toDTO).toList();
     }
 
     @GetMapping("/question/{id}")
-    public QuestionResponse getQuestionById(@PathVariable Long id) {
+    public QuestionDTO getQuestionById(@PathVariable Long id) {
         Question question = questionService.getQuestionById(id);
 
-        return QuestionResponse.builder()
-                .id(question.getId())
-                .testId(question.getTestId())
-                .build();
+        return mapper.toDTO(question);
     }
 }
 
