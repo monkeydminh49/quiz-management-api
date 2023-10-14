@@ -3,22 +3,33 @@ package com.e01.quiz.component;
 import com.e01.quiz.dto.ChoiceDTO;
 import com.e01.quiz.dto.QuestionDTO;
 import com.e01.quiz.dto.TestDTO;
+import com.e01.quiz.dto.UserResponse;
 import com.e01.quiz.entity.Choice;
 import com.e01.quiz.entity.Question;
 import com.e01.quiz.entity.Test;
+import com.e01.quiz.entity.User;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
+
+    public UserResponse toDTO(User user){
+        return UserResponse.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .username(user.getUsername())
+                .roles(user.getRoles())
+                .build();
+    }
     public TestDTO toDTO(Test test) {
         return TestDTO.builder()
                 .id(test.getId())
                 .title(test.getTitle())
+                .userId(test.getUser().getId())
                 .questions(test.getQuestions().stream().map(this::toDTO).toList())
                 .build();
     }
+
 
     public Test toEntity(TestDTO testDTO) {
         return Test.builder()

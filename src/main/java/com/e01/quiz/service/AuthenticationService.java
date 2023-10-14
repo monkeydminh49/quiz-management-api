@@ -28,12 +28,13 @@ public class AuthenticationService {
     private PasswordEncoder encoder;
     @Autowired
     private UserRepository userRepository;
-//    @Autowired
+    //    @Autowired
 //    private TokenRepository tokenRepository;
     @Autowired
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
     public UserResponse register(RegisterRequest request) {
 
         User user = User.builder()
@@ -66,7 +67,7 @@ public class AuthenticationService {
                 .name(savedUser.getName())
                 .username(savedUser.getUsername())
                 .roles(savedUser.getRoles())
-//                .token(token)
+                .token(token)
                 .build();
     }
 
@@ -87,12 +88,12 @@ public class AuthenticationService {
 //            revokeAllUserTokens(user);
 //            saveUserToken(user, accessToken);
 
-           JwtResponse token = JwtResponse.builder()
+            JwtResponse token = JwtResponse.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
                     .build();
 
-              return UserResponse.builder()
+            return UserResponse.builder()
                     .id(user.getId())
                     .name(user.getName())
                     .username(user.getUsername())

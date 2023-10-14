@@ -2,6 +2,7 @@ package com.e01.quiz.controller;
 
 import com.e01.quiz.dto.LoginRequest;
 import com.e01.quiz.dto.MappingResponse;
+import com.e01.quiz.dto.RegisterRequest;
 import com.e01.quiz.dto.UserResponse;
 import com.e01.quiz.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,15 @@ public class AuthenticationController {
         return "Welcome to E01 Quiz Management API!";
     }
 
-//    @PostMapping("/register")
-//    public MappingResponse registerUser(@RequestBody RegisterRequest request) {
-//        UserResponse userResponse = authenticationService.register(request);
-//        return MappingResponse.builder()
-//                .code(1)
-//                .body(userResponse)
-//                .message("Register successfully")
-//                .build();
-//    }
+    @PostMapping("/register")
+    public MappingResponse registerUser(@RequestBody RegisterRequest request) {
+        UserResponse userResponse = authenticationService.register(request);
+        return MappingResponse.builder()
+                .code(1)
+                .body(userResponse)
+                .message("Register successfully")
+                .build();
+    }
 
     @PostMapping("/login")
     public MappingResponse login(@RequestBody LoginRequest request) {

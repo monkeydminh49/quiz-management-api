@@ -33,4 +33,15 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private List<UserRole> roles;
+    @OneToMany(mappedBy = "user")
+    private List<Test> tests;
+
+    public boolean hasTest(Long id) {
+        for (Test test : tests) {
+            if (test.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
