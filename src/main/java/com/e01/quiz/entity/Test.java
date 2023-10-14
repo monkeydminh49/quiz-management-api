@@ -27,6 +27,8 @@ public class Test {
     private String title;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

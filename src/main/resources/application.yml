@@ -10,8 +10,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show_sql: true
+      ddl-auto: update
+    show_sql: false
     properties:
       hibernate:
         format_sql: true
@@ -19,7 +19,11 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:
     name: SignLanguage
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+
+application:
+  security:
+    jwt:
+      secret-key: 531c7c9f715b0e4b92d14a0f9599a3fa1e91cb83d7836a34ec0e030ecedb218d
+      expiration: 1800000 # 30 minutes
+      refresh-token:
+        expiration: 43200000 # 6 hours

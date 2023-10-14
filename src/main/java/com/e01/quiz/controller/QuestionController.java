@@ -3,7 +3,7 @@ package com.e01.quiz.controller;
 import com.e01.quiz.dto.QuestionDTO;
 import com.e01.quiz.entity.Question;
 import com.e01.quiz.service.QuestionService;
-import com.e01.quiz.util.Mapper;
+import com.e01.quiz.component.Mapper;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

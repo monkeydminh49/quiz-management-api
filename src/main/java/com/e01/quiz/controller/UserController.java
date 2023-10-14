@@ -19,23 +19,22 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @GetMapping("/user")
+//    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER')")
     public List<UserResponse> getUsers() {
-        List<User> users = userService. getAllUsers();
+        List<User> users = userService.getAllUsers();
 
         return users.stream().map(user -> UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .username(user.getUsername())
-                .build()).toList();
+                .username(user.getUsername()).build()).toList();
     }
 
     @GetMapping("/user/{id}")
     public UserResponse getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
 
-        return  UserResponse.builder()
+        return UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())

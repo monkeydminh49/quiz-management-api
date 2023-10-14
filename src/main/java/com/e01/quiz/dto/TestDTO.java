@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 public class TestDTO {
     private Long id;
+    private Long userId;
     private String title;
     private List<QuestionDTO> questions;
 

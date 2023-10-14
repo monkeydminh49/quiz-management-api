@@ -1,33 +1,27 @@
 package com.e01.quiz.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Component
 @Entity
 @Table(
-        name = "QUESTION"
+        name = "CHOICE"
 )
-public class Question {
+public class Choice {
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
-    private String question;
-
+    private String content;
+    private boolean isCorrect;
     @ManyToOne
-    @JoinColumn(name="test_id", nullable=false)
-    private Test test;
-
-    @OneToMany(mappedBy = "question")
-    private List<Choice> choices;
+    @JoinColumn(name="question_id", nullable=false)
+    private Question question;
 }
