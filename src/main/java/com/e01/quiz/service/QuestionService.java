@@ -1,6 +1,7 @@
 package com.e01.quiz.service;
 
 
+import com.e01.quiz.entity.Choice;
 import com.e01.quiz.entity.Question;
 import com.e01.quiz.entity.Test;
 import com.e01.quiz.repository.QuestionRepository;
@@ -13,6 +14,9 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionRepository repository;
+    @Autowired
+    private ChoiceService choiceService;
+
 
     public List<Question> getAllQuestions() {
         return repository.findAll();
@@ -26,10 +30,16 @@ public class QuestionService {
         return repository.findById(testId).orElseThrow(() -> new RuntimeException("Invalid Test"));
     }
 
-
     public void saveQuestions(List<Question> questions, Test test) {
-        questions.forEach(question -> question.setTest(test));
-        repository.saveAll(questions);
+        questions.forEach(question -> {
+            question.setTest(test);
+        });
+        List<Question> savedQuestions =  repository.saveAll(questions);
+        savedQuestions.forEach(question -> {
+            choiceService.saveChoices(question.getChoices(), question);
+        });
+
+
     }
 
     public void deleteQuestions(List<Question> oldQuestions) {
@@ -38,6 +48,9 @@ public class QuestionService {
 
     public void deleteQuestionsByTestId(Long testId) {
         List<Question> questions =  repository.findAllByTestId(testId);
+        questions.forEach(question -> {
+            choiceService.deleteChoicesByQuestionId(question.getId());
+        });
         repository.deleteAll(questions);
     }
 }

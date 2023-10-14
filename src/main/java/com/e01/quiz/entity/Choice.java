@@ -1,10 +1,7 @@
 package com.e01.quiz.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Data
@@ -22,7 +19,7 @@ public class Choice {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
-    private String choice;
+    private String content;
     private boolean isCorrect;
     @ManyToOne
     @JoinColumn(name="question_id", nullable=false)
