@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -25,4 +27,7 @@ public class Question {
     @ManyToOne
     @JoinColumn(name="test_id", nullable=false)
     private Test test;
+
+    @OneToMany(mappedBy = "question")
+    private List<Choice> choices;
 }

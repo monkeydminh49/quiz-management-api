@@ -4,7 +4,7 @@ import com.e01.quiz.dto.TestDTO;
 import com.e01.quiz.entity.Question;
 import com.e01.quiz.entity.Test;
 import com.e01.quiz.repository.TestRepository;
-import com.e01.quiz.util.Mapper;
+import com.e01.quiz.component.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +25,10 @@ public class TestService {
         return testRepository.findAll();
     }
 
-    public Test createTest(TestDTO testDTO) {
-        List<Question> questions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
+    public Test createTest(Test test) {
+        testRepository.save(test);
 
-        Test test = testRepository.save(Test.builder()
-                .title(testDTO.getTitle())
-                .questions(questions)
-                .build());
-
-        questionService.saveQuestions(questions, test);
+        questionService.saveQuestions(test.getQuestions(), test);
 
         return test;
     }

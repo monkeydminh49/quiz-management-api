@@ -27,8 +27,7 @@ public class UserController {
         return users.stream().map(user -> UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .username(user.getUsername())
-                .build()).toList();
+                .username(user.getUsername())                .build()).toList();
     }
 
     @GetMapping("/user/{id}")

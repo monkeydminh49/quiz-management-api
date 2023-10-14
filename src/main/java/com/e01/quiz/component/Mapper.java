@@ -1,4 +1,4 @@
-package com.e01.quiz.util;
+package com.e01.quiz.component;
 
 import com.e01.quiz.dto.QuestionDTO;
 import com.e01.quiz.dto.TestDTO;
@@ -14,14 +14,14 @@ public class Mapper {
         return TestDTO.builder()
                 .id(test.getId())
                 .title(test.getTitle())
-                .questions(test.getQuestions().stream().map(this::toDTO).collect(Collectors.toList()))
+                .questions(test.getQuestions().stream().map(this::toDTO).toList())
                 .build();
     }
 
     public Test toEntity(TestDTO testDTO) {
         return Test.builder()
                 .title(testDTO.getTitle())
-                .questions(testDTO.getQuestions().stream().map(this::toEntity).collect(Collectors.toList()))
+                .questions(testDTO.getQuestions().stream().map(this::toEntity).toList())
                 .build();
     }
     public QuestionDTO toDTO(Question question) {
