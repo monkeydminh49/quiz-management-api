@@ -3,10 +3,14 @@ package com.e01.quiz.config;
 import com.e01.quiz.entity.User;
 import com.e01.quiz.repository.QuestionRepository;
 import com.e01.quiz.repository.UserRepository;
+import com.e01.quiz.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @Configuration
 public class InitConfig {
@@ -14,8 +18,8 @@ public class InitConfig {
     UserRepository userRepository;
     @Autowired
     QuestionRepository questionRepository;
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
@@ -24,9 +28,8 @@ public class InitConfig {
                 admin = new User();
                 admin.setName("admin");
                 admin.setUsername("admin@gmail.com");
-                admin.setAdmin(true);
-//                admin.setPassword(passwordEncoder.encode("123456"));
-//                admin.setRoles(List.of(UserRole.ROLE_ADMIN));
+                admin.setRoles(List.of(UserRole.STUDENT, UserRole.TEACHER));
+                admin.setPassword(passwordEncoder.encode("123456"));
                 userRepository.save(admin);
             }
 //            Question ques = questionRepository.findById((1L)).orElse(null);
