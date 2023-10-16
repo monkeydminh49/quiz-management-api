@@ -51,9 +51,13 @@ public class TestController {
     }
 
     @PutMapping("/test/{id}")
-    public TestDTO updateTest(Principal principal, @PathVariable Long id, @RequestBody TestDTO testDTO) {
+    public MappingResponse updateTest(Principal principal, @PathVariable Long id, @RequestBody TestDTO testDTO) {
         String username = principal.getName();
         Test test = testService.updateTest(username, id, testDTO);
-        return mapper.toDTO(test);
+        return MappingResponse.builder()
+                .code(1)
+                .body(mapper.toDTO(test))
+                .message("Update test successfully")
+                .build();
     }
 }
