@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.List;
 
 @Builder
@@ -30,5 +31,5 @@ public class Test {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    private Long duration;
 }

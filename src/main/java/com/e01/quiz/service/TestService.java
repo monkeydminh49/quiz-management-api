@@ -51,7 +51,7 @@ public class TestService {
     public Test updateTest(String username, Long id, TestDTO testDTO) {
         Test test = getUserTestById(username, id);
         test.setTitle(testDTO.getTitle());
-
+        test.setDuration(testDTO.getDuration());
         // Delete old questions
         questionService.deleteQuestionsByTestId(id);
 

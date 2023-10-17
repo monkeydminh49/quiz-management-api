@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.util.List;
 
 @Data
@@ -16,6 +17,7 @@ public class TestDTO {
     private Long userId;
     private String title;
     private List<QuestionDTO> questions;
+    private Long duration;
 
     public List<QuestionDTO> getQuestions() {
         return questions != null ? questions : List.of();
