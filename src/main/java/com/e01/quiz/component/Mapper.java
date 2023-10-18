@@ -27,6 +27,7 @@ public class Mapper {
                 .title(test.getTitle())
                 .userId(test.getUser().getId())
                 .questions(test.getQuestions().stream().map(this::toDTO).toList())
+                .duration(test.getDuration())
                 .build();
     }
 
@@ -35,6 +36,7 @@ public class Mapper {
         return Test.builder()
                 .title(testDTO.getTitle())
                 .questions(testDTO.getQuestions().stream().map(this::toEntity).toList())
+                .duration(testDTO.getDuration())
                 .build();
     }
     public QuestionDTO toDTO(Question question) {

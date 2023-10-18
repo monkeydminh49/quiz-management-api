@@ -1,9 +1,6 @@
 package com.e01.quiz.controller;
 
-import com.e01.quiz.dto.LoginRequest;
-import com.e01.quiz.dto.MappingResponse;
-import com.e01.quiz.dto.RegisterRequest;
-import com.e01.quiz.dto.UserResponse;
+import com.e01.quiz.dto.*;
 import com.e01.quiz.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +15,10 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @GetMapping("/hello")
-    public String hello() {
-        return "Welcome to E01 Quiz Management API!";
+    public HelloDTO hello() {
+        return HelloDTO.builder()
+                .message("Hello vux")
+                .build();
     }
 
     @PostMapping("/register")
