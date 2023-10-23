@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/test")
 @Slf4j
 public class TestController {
     @Autowired
@@ -23,7 +23,7 @@ public class TestController {
     @Autowired
     private Mapper mapper;
 
-    @PostMapping("/test")
+    @PostMapping
     public MappingResponse createTest(Principal principal, @RequestBody TestDTO testDTO) {
         String username = principal.getName();
         Test test = mapper.toEntity(testDTO);
@@ -35,22 +35,27 @@ public class TestController {
                 .build();
     }
 
-    @GetMapping("/test")
+    @GetMapping
     public List<TestDTO> getTests(Principal principal) {
         String username = principal.getName();
         List<Test> tests = testService.getTests(username);
 
         return tests.stream().map(mapper::toDTO).toList();
     }
+    @GetMapping("/code/{code}")
+    public TestDTO getTestByCode(@RequestParam String code) {
+        Test test = testService.getTestByCode(code);
+        return mapper.toDTO(test);
+    }
 
-    @GetMapping("/test/{id}")
+    @GetMapping("/{id}")
     public TestDTO getUserTestById(Principal principal, @PathVariable Long id) {
         String username = principal.getName();
         Test test = testService.getUserTestById(username, id);
         return mapper.toDTO(test);
     }
 
-    @PutMapping("/test/{id}")
+    @PutMapping("/{id}")
     public MappingResponse updateTest(Principal principal, @PathVariable Long id, @RequestBody TestDTO testDTO) {
         String username = principal.getName();
         Test test = testService.updateTest(username, id, testDTO);

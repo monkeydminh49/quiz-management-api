@@ -24,6 +24,7 @@ public class Mapper {
     public TestDTO toDTO(Test test) {
         return TestDTO.builder()
                 .id(test.getId())
+                .code(test.getCode())
                 .title(test.getTitle())
                 .userId(test.getUser().getId())
                 .questions(test.getQuestions().stream().map(this::toDTO).toList())

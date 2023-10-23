@@ -23,6 +23,8 @@ public class TestService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private TestCodeGenerator testCodeGenerator;
+    @Autowired
     private Mapper mapper;
 
     public List<Test> getTests(String username) {
@@ -32,6 +34,8 @@ public class TestService {
 
     public Test createTest(String username, Test test) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
+        String uniqueCode = testCodeGenerator.generateUniqueTestCode();
+        test.setCode(uniqueCode);
         test.setUser(user);
         testRepository.save(test);
         questionService.saveQuestions(test.getQuestions(), test);
@@ -60,5 +64,9 @@ public class TestService {
         questionService.saveQuestions(newQuestions, test);
 
         return testRepository.save(test);
+    }
+
+    public Test getTestByCode(String code) {
+        return testRepository.findByCode(code).orElseThrow(() -> new RuntimeException("test not found"));
     }
 }

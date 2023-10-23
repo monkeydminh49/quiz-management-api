@@ -25,6 +25,7 @@ public class Test {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+    private String code;
     private String title;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
