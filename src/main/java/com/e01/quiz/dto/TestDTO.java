@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,6 +18,7 @@ public class TestDTO {
     private String code;
     private Long userId;
     private String title;
+    private LocalDateTime startTime;
     private List<QuestionDTO> questions;
     private Long duration;
 

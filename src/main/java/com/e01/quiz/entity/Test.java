@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -27,6 +28,7 @@ public class Test {
     private Long id;
     private String code;
     private String title;
+    private LocalDateTime startTime;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
     @ManyToOne
