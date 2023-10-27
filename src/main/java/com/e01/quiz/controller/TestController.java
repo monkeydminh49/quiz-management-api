@@ -4,6 +4,7 @@ import com.e01.quiz.component.Mapper;
 import com.e01.quiz.dto.MappingResponse;
 import com.e01.quiz.dto.TestDTO;
 import com.e01.quiz.entity.Test;
+import com.e01.quiz.exception.TestNotFoundException;
 import com.e01.quiz.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,14 @@ public class TestController {
         return MappingResponse.builder()
                 .code(1)
                 .message("Delete test successfully")
+                .build();
+    }
+
+    @ExceptionHandler(TestNotFoundException.class)
+    public MappingResponse handleTestNotFoundException(TestNotFoundException e) {
+        return MappingResponse.builder()
+                .code(404)
+                .message(e.getMessage())
                 .build();
     }
 }
