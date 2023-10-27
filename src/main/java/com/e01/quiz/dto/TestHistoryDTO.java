@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @Builder
 public class TestHistoryDTO {
     private Long id;
+    private Long testId;
     private String code;
     private String title;
     private LocalDateTime startTime;
     private Long duration;
     private int score;
-    private Long userId;
+    private Long candidateId;
+    private String candidateName;
     private LocalDateTime submitTime;
 }

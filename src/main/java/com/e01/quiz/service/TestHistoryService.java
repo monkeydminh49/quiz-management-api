@@ -39,4 +39,8 @@ public class TestHistoryService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
         return testHistoryRepository.findAllById(user.getTestHistories().stream().map(TestHistory::getId).toList());
     }
+
+    public List<TestHistory> getTestHistoriesByTestId(String username, Long id) {
+        return testHistoryRepository.findAllByTestId(id);
+    }
 }

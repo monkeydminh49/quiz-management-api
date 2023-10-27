@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+import static java.util.Arrays.stream;
+
 @Controller
 @RestController
 @RequestMapping("/api/v1/test-history")
@@ -42,4 +44,12 @@ public class TestHistoryController {
         List<TestHistory> testHistories = testHistoryService.getTestHistories(username);
         return testHistories.stream().map(mapper::toDTO).toList();
     }
+
+    @GetMapping("/{id}")
+    public List<TestHistoryDTO> getTestHistoryByTestId(Principal principal, @PathVariable Long id) {
+        String username = principal.getName();
+        List<TestHistory> testHistories = testHistoryService.getTestHistoriesByTestId(username, id);
+        return testHistories.stream().map(mapper::toDTO).toList();
+    }
+
 }

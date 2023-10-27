@@ -35,14 +35,14 @@ public class TestController {
                 .build();
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<TestDTO> getTests(Principal principal) {
         String username = principal.getName();
         List<Test> tests = testService.getTests(username);
 
         return tests.stream().map(mapper::toDTO).toList();
     }
-    @GetMapping("/code/{code}")
+    @GetMapping()
     public TestDTO getTestByCode(@RequestParam String code) {
         Test test = testService.getTestByCode(code);
         return mapper.toDTO(test);
@@ -64,6 +64,15 @@ public class TestController {
                 .code(1)
                 .body(mapper.toDTO(test))
                 .message("Update test successfully")
+                .build();
+    }
+    @DeleteMapping("/{id}")
+    public MappingResponse deleteTestById(Principal principal, @PathVariable Long id) {
+        String username = principal.getName();
+        testService.deleteTestById(username, id);
+        return MappingResponse.builder()
+                .code(1)
+                .message("Delete test successfully")
                 .build();
     }
 }

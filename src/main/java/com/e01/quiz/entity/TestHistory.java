@@ -24,6 +24,7 @@ public class TestHistory {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+    private Long testId;
     private String code;
     private String title;
     private LocalDateTime startTime;

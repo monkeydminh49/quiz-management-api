@@ -69,4 +69,10 @@ public class TestService {
     public Test getTestByCode(String code) {
         return testRepository.findByCode(code).orElseThrow(() -> new RuntimeException("test not found"));
     }
+
+    public void deleteTestById(String username, Long id) {
+        Test test = getUserTestById(username, id);
+        questionService.deleteQuestionsByTestId(id);
+        testRepository.delete(test);
+    }
 }

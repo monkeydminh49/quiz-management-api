@@ -77,11 +77,13 @@ public class Mapper {
     public TestHistoryDTO toDTO(TestHistory testHistory) {
         return TestHistoryDTO.builder()
                 .id(testHistory.getId())
+                .testId(testHistory.getTestId())
                 .code(testHistory.getCode())
                 .title(testHistory.getTitle())
                 .startTime(testHistory.getStartTime())
                 .submitTime(testHistory.getSubmitTime())
-                .userId(testHistory.getUser().getId())
+                .candidateId(testHistory.getUser().getId())
+                .candidateName(testHistory.getUser().getName())
                 .duration(testHistory.getDuration())
                 .score(testHistory.getScore())
                 .build();
@@ -90,10 +92,12 @@ public class Mapper {
     public TestHistory testToTestHistory(Test test) {
         return TestHistory.builder()
                 .id(test.getId())
+                .testId(test.getId())
                 .title(test.getTitle())
                 .startTime(test.getStartTime())
                 .code(test.getCode())
                 .duration(test.getDuration())
+                .user(test.getUser())
                 .score(0)
                 .build();
     }
