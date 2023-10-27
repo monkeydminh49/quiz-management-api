@@ -35,6 +35,8 @@ public class User {
     private List<UserRole> roles;
     @OneToMany(mappedBy = "user")
     private List<Test> tests;
+    @OneToMany(mappedBy = "user")
+    private List<TestHistory> testHistories;
 
     public boolean hasTest(Long id) {
         for (Test test : tests) {

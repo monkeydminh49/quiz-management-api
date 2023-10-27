@@ -48,7 +48,8 @@ public class SecurityConfig {
                                         .permitAll()
                                 .requestMatchers("/api/v1/test/**",
                                         "api/v1/user/**",
-                                        "/api/v1/question/**")
+                                        "/api/v1/question/**",
+                                        "/api/v1/test-history/**")
 //                                .hasAnyAuthority("STUDENT", "TEACHER")
 //                                .anyRequest()
                                 .authenticated()

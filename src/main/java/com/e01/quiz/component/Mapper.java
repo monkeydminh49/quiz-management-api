@@ -1,13 +1,7 @@
 package com.e01.quiz.component;
 
-import com.e01.quiz.dto.ChoiceDTO;
-import com.e01.quiz.dto.QuestionDTO;
-import com.e01.quiz.dto.TestDTO;
-import com.e01.quiz.dto.UserResponse;
-import com.e01.quiz.entity.Choice;
-import com.e01.quiz.entity.Question;
-import com.e01.quiz.entity.Test;
-import com.e01.quiz.entity.User;
+import com.e01.quiz.dto.*;
+import com.e01.quiz.entity.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -71,6 +65,36 @@ public class Mapper {
         return Choice.builder()
                 .content(choiceDTO.getContent())
                 .isCorrect(choiceDTO.getIsCorrect())
+                .build();
+    }
+
+    public TestHistory toEntity(TestHistoryDTO testHistoryDTO) {
+        return TestHistory.builder()
+                .id(testHistoryDTO.getId())
+                .score(testHistoryDTO.getScore())
+                .build();
+    }
+    public TestHistoryDTO toDTO(TestHistory testHistory) {
+        return TestHistoryDTO.builder()
+                .id(testHistory.getId())
+                .code(testHistory.getCode())
+                .title(testHistory.getTitle())
+                .startTime(testHistory.getStartTime())
+                .submitTime(testHistory.getSubmitTime())
+                .userId(testHistory.getUser().getId())
+                .duration(testHistory.getDuration())
+                .score(testHistory.getScore())
+                .build();
+    }
+
+    public TestHistory testToTestHistory(Test test) {
+        return TestHistory.builder()
+                .id(test.getId())
+                .title(test.getTitle())
+                .startTime(test.getStartTime())
+                .code(test.getCode())
+                .duration(test.getDuration())
+                .score(0)
                 .build();
     }
 }
