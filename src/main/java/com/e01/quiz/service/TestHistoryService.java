@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -30,7 +33,18 @@ public class TestHistoryService {
         TestHistory testHistory1 = mapper.testToTestHistory(test);
         testHistory1.setUser(user);
         testHistory1.setScore(testHistory.getScore());
-        testHistory1.setSubmitTime(LocalDateTime.now());
+        // Get the current date and time in the system's default time zone
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        // Set the desired time zone to GMT+7
+        ZoneId zoneId = ZoneId.of("GMT+7");
+
+        // Convert the local date time to GMT+7
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+
+        // Define a custom date time formatter
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        testHistory1.setSubmitTime(LocalDateTime.parse(zonedDateTime.format(formatter), formatter));
         testHistoryRepository.save(testHistory1);
         return testHistory1;
     }
