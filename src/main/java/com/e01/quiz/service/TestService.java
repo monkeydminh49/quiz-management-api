@@ -60,82 +60,83 @@ public class TestService {
         return testRepository.findById(id).orElseThrow(() -> new RuntimeException("test not found"));
     }
 
-    public Test updateTest(String username, Long id, TestDTO testDTO) {
-        // Find the user by username
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Find the test by id
-        Test test = testRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Test not found"));
-
-        // Check if the test belongs to the user
-        if (!test.getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Test does not belong to the user");
-        }
-
-        // Update test properties
-        test.setCode(testDTO.getCode());
-        test.setTitle(testDTO.getTitle());
-        test.setStartTime(testDTO.getStartTime());
-        test.setDuration(testDTO.getDuration());
-
-        // Update or create questions and choices
-        List<Question> updatedQuestions = testDTO.getQuestions().stream()
-                .map(questionDTO -> {
-                    Question question;
-                    if (questionDTO.getId() != null) {
-                        question = questionRepository.findById(questionDTO.getId())
-                                .orElseThrow(() -> new RuntimeException("Question not found"));
-                    } else {
-                        question = new Question();
-                    }
-                    question.setQuestion(questionDTO.getQuestion());
-                    question.setTest(test);
-
-                    // Update or create choices
-                    List<Choice> updatedChoices = questionDTO.getChoices().stream()
-                            .map(choiceDTO -> {
-                                Choice choice;
-                                if (choiceDTO.getId() != null) {
-                                    choice = choiceRepository.findById(choiceDTO.getId())
-                                            .orElseThrow(() -> new RuntimeException("Choice not found"));
-                                } else {
-                                    choice = new Choice();
-                                }
-                                choice.setContent(choiceDTO.getContent());
-                                choice.setCorrect(choiceDTO.getIsCorrect());
-                                choice.setQuestion(question);
-                                return choice;
-                            })
-                            .collect(Collectors.toList());
-
-                    question.setChoices(updatedChoices);
-
-                    return question;
-                })
-                .collect(Collectors.toList());
-
-        test.setQuestions(updatedQuestions);
-
-
-
-        return testRepository.save(test);
-    }
-
 //    public Test updateTest(String username, Long id, TestDTO testDTO) {
-//        Test test = getUserTestById(username, id);
-//        test.setTitle(testDTO.getTitle());
-//        test.setDuration(testDTO.getDuration());
-//        // Delete old questions
-//        questionService.deleteQuestionsByTestId(id);
+//        // Find the user by username
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
 //
-//        // Add new questions
-//        List<Question> newQuestions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
-//        questionService.saveQuestions(newQuestions, test);
+//        // Find the test by id
+//        Test test = testRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Test not found"));
+//
+//        // Check if the test belongs to the user
+//        if (!test.getUser().getId().equals(user.getId())) {
+//            throw new RuntimeException("Test does not belong to the user");
+//        }
+//
+//        // Update test properties
+//        test.setCode(testDTO.getCode());
+//        test.setTitle(testDTO.getTitle());
+//        test.setStartTime(testDTO.getStartTime());
+//        test.setDuration(testDTO.getDuration());
+//
+//        // Update or create questions and choices
+//        List<Question> updatedQuestions = testDTO.getQuestions().stream()
+//                .map(questionDTO -> {
+//                    Question question;
+//                    if (questionDTO.getId() != null) {
+//                        question = questionRepository.findById(questionDTO.getId())
+//                                .orElseThrow(() -> new RuntimeException("Question not found"));
+//                    } else {
+//                        question = new Question();
+//                    }
+//                    question.setQuestion(questionDTO.getQuestion());
+//                    question.setTest(test);
+//
+//                    // Update or create choices
+//                    List<Choice> updatedChoices = questionDTO.getChoices().stream()
+//                            .map(choiceDTO -> {
+//                                Choice choice;
+//                                if (choiceDTO.getId() != null) {
+//                                    choice = choiceRepository.findById(choiceDTO.getId())
+//                                            .orElseThrow(() -> new RuntimeException("Choice not found"));
+//                                } else {
+//                                    choice = new Choice();
+//                                }
+//                                choice.setContent(choiceDTO.getContent());
+//                                choice.setCorrect(choiceDTO.getIsCorrect());
+//                                choice.setQuestion(question);
+//                                return choice;
+//                            })
+//                            .collect(Collectors.toList());
+//
+//                    question.setChoices(updatedChoices);
+//
+//                    return question;
+//                })
+//                .collect(Collectors.toList());
+//
+//        test.setQuestions(updatedQuestions);
+//
+//
 //
 //        return testRepository.save(test);
 //    }
+
+    public Test updateTest(String username, Long id, TestDTO testDTO) {
+        Test test = getUserTestById(username, id);
+        test.setTitle(testDTO.getTitle());
+        test.setDuration(testDTO.getDuration());
+        test.setStartTime(testDTO.getStartTime());
+        // Delete old questions
+        questionService.deleteQuestionsByTestId(id);
+
+        // Add new questions
+        List<Question> newQuestions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
+        questionService.saveQuestions(newQuestions, test);
+
+        return testRepository.save(test);
+    }
 
     public Test getTestByCode(String code) {
         return testRepository.findByCode(code).orElseThrow(() -> new RuntimeException("test not found"));
