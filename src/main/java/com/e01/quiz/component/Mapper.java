@@ -72,6 +72,7 @@ public class Mapper {
         return TestHistory.builder()
                 .id(testHistoryDTO.getId())
                 .score(testHistoryDTO.getScore())
+                .submitTime(testHistoryDTO.getSubmitTime())
                 .build();
     }
     public TestHistoryDTO toDTO(TestHistory testHistory) {
