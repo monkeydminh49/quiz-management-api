@@ -29,7 +29,7 @@ public class Test {
     private String code;
     private String title;
     private LocalDateTime startTime;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test" , fetch = FetchType.LAZY)
     private List<Question> questions;
     @ManyToOne
     @JoinColumn(name = "user_id")
