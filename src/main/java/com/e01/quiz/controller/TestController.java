@@ -27,6 +27,7 @@ public class TestController {
     public MappingResponse createTest(Principal principal, @RequestBody TestDTO testDTO) {
         String username = principal.getName();
         Test test = mapper.toEntity(testDTO);
+        System.out.println(testDTO.getQuestions().get(0).getType());
         Test createdTest = testService.createTest(username, test);
         return MappingResponse.builder()
                 .code(1)

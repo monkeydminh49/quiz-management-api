@@ -41,6 +41,7 @@ public class Mapper {
                 .id(question.getId())
                 .testId(question.getTest().getId())
                 .question(question.getQuestion())
+                .type(question.getType())
                 .choices(question.getChoices().stream().map(this::toDTO).toList())
                 .build();
     }
@@ -48,6 +49,7 @@ public class Mapper {
     public Question toEntity(QuestionDTO questionDTO) {
         return Question.builder()
                 .question(questionDTO.getQuestion())
+                .type(questionDTO.getType())
                 .choices(questionDTO.getChoices().stream().map(this::toEntity).toList())
                 .build();
     }
