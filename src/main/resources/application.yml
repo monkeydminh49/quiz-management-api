@@ -4,14 +4,15 @@ bezkoder:
     prod-url: http://13.212.194.205
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-cke4rqtjhfbs739pckig-a.oregon-postgres.render.com:5432/quizdb_79io
-    username: quizdb_79io_user
-    password: p3PSWvr2uCPwQaDsrSYLCPLRw13icrA4
+#    url: jdbc:postgresql://dpg-cke4rqtjhfbs739pckig-a.oregon-postgres.render.com:5432/quizdb_79io
+    url: jdbc:postgresql://localhost:5432/ptit
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    show_sql: false
+    show_sql: true
     properties:
       hibernate:
         format_sql: true
