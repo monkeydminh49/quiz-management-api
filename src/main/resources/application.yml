@@ -5,7 +5,7 @@ bezkoder:
 spring:
   datasource:
 #    url: jdbc:postgresql://dpg-cke4rqtjhfbs739pckig-a.oregon-postgres.render.com:5432/quizdb_79io
-    url: jdbc:postgresql://localhost:5432/ptit
+    url: jdbc:postgresql://localhost:5433/ptit
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
