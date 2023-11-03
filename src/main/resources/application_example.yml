@@ -4,7 +4,7 @@ bezkoder:
     prod-url: http://13.212.194.205
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-cke4rqtjhfbs739pckig-a.oregon-postgres.render.com:5432/quizdb_79io
+    url:
     username:
     password:
     driver-class-name: org.postgresql.Driver

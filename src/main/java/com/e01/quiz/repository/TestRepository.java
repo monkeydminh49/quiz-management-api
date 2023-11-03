@@ -14,7 +14,10 @@ import java.util.Optional;
 public interface TestRepository  extends JpaRepository<Test, Long> {
 
     Optional<Test> findByCode(String code);
-    @Query("SELECT t FROM Test t JOIN FETCH t.questions WHERE t.user = :user")
+    @Query("SELECT t FROM Test t JOIN FETCH t.questions q WHERE t.user = :user")
     List<Test> getTestsForUser(@Param("user") User user);
+
+    @Query("SELECT t FROM Test t JOIN FETCH t.questions q JOIN FETCH q.choices WHERE t.id = :id")
+    Optional<Test> findById(@Param("id") Long id);
 }
 
