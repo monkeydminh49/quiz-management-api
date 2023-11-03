@@ -5,8 +5,8 @@ bezkoder:
 spring:
   datasource:
     url: jdbc:postgresql://13.212.194.205:5432/ptit
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
