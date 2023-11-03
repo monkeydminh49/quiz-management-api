@@ -34,8 +34,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-#      - name: Install Maven dependencies
-#        run: mvn install
+      - name: Install Maven dependencies
+        run: mvn install
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -75,4 +75,4 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@13.212.194.205 'sudo docker rm quiz-api || true'
     - name: Run new container
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@13.212.194.205 'sudo docker run -d --name quiz-api -p 80:8080 monkeydminh49/quiz-api:latest'
+        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@13.212.194.205 'sudo docker run -d --name quiz-api -p -e SPRING_DATASOURCE_USERNAME='${{ secrets.SPRING_DATASOURCE_USERNAME }}' -e SPRING_DATASOURCE_PASSWORD='${{ secrets.SPRING_DATASOURCE_PASSWORD }}'  80:8080 monkeydminh49/quiz-api:latest'
