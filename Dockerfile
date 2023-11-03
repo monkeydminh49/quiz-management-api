@@ -2,7 +2,7 @@ FROM maven:3.9.4-amazoncorretto-21 AS build
 #WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean install
+RUN  mvn clean install
 
 FROM openjdk:21
 MAINTAINER MinhDunk
