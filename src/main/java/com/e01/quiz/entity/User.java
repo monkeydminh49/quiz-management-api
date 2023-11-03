@@ -33,9 +33,9 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private List<UserRole> roles;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Test> tests;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<TestHistory> testHistories;
 
     public boolean hasTest(Long id) {
