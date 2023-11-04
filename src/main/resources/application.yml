@@ -4,14 +4,14 @@ bezkoder:
     prod-url: http://13.212.194.205
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-cke4rqtjhfbs739pckig-a.oregon-postgres.render.com:5432/quizdb_79io
-    username: quizdb_79io_user
-    password: p3PSWvr2uCPwQaDsrSYLCPLRw13icrA4
+    url: jdbc:postgresql://13.212.194.205:5432/ptit
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    show_sql: false
+    show_sql: true
     properties:
       hibernate:
         format_sql: true
@@ -24,6 +24,6 @@ application:
   security:
     jwt:
       secret-key: 531c7c9f715b0e4b92d14a0f9599a3fa1e91cb83d7836a34ec0e030ecedb218d
-      expiration: 1800000 # 30 minutes
+      expiration: 604800000 # 7 days
       refresh-token:
-        expiration: 43200000 # 6 hours
+        expiration: 2592000000 # 30 days

@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Builder
 @Data
@@ -18,21 +16,22 @@ import java.util.List;
 @Component
 @Entity
 @Table(
-        name = "TEST"
+        name = "TEST_HISTORY"
 )
-public class Test {
+public class TestHistory {
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+    private Long testId;
     private String code;
     private String title;
     private LocalDateTime startTime;
-    @OneToMany(mappedBy = "test" , fetch = FetchType.LAZY)
-    private List<Question> questions;
+    private Long duration;
+    private int score;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    private Long duration;
+    private LocalDateTime submitTime;
 }

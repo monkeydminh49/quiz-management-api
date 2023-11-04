@@ -1,13 +1,7 @@
 package com.e01.quiz.component;
 
-import com.e01.quiz.dto.ChoiceDTO;
-import com.e01.quiz.dto.QuestionDTO;
-import com.e01.quiz.dto.TestDTO;
-import com.e01.quiz.dto.UserResponse;
-import com.e01.quiz.entity.Choice;
-import com.e01.quiz.entity.Question;
-import com.e01.quiz.entity.Test;
-import com.e01.quiz.entity.User;
+import com.e01.quiz.dto.*;
+import com.e01.quiz.entity.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +18,9 @@ public class Mapper {
     public TestDTO toDTO(Test test) {
         return TestDTO.builder()
                 .id(test.getId())
+                .code(test.getCode())
                 .title(test.getTitle())
+                .startTime(test.getStartTime())
                 .userId(test.getUser().getId())
                 .questions(test.getQuestions().stream().map(this::toDTO).toList())
                 .duration(test.getDuration())
@@ -35,6 +31,7 @@ public class Mapper {
     public Test toEntity(TestDTO testDTO) {
         return Test.builder()
                 .title(testDTO.getTitle())
+                .startTime(testDTO.getStartTime())
                 .questions(testDTO.getQuestions().stream().map(this::toEntity).toList())
                 .duration(testDTO.getDuration())
                 .build();
@@ -44,6 +41,7 @@ public class Mapper {
                 .id(question.getId())
                 .testId(question.getTest().getId())
                 .question(question.getQuestion())
+                .type(question.getType())
                 .choices(question.getChoices().stream().map(this::toDTO).toList())
                 .build();
     }
@@ -51,6 +49,7 @@ public class Mapper {
     public Question toEntity(QuestionDTO questionDTO) {
         return Question.builder()
                 .question(questionDTO.getQuestion())
+                .type(questionDTO.getType())
                 .choices(questionDTO.getChoices().stream().map(this::toEntity).toList())
                 .build();
     }
@@ -68,6 +67,41 @@ public class Mapper {
         return Choice.builder()
                 .content(choiceDTO.getContent())
                 .isCorrect(choiceDTO.getIsCorrect())
+                .build();
+    }
+
+    public TestHistory toEntity(TestHistoryDTO testHistoryDTO) {
+        return TestHistory.builder()
+                .id(testHistoryDTO.getId())
+                .score(testHistoryDTO.getScore())
+                .submitTime(testHistoryDTO.getSubmitTime())
+                .build();
+    }
+    public TestHistoryDTO toDTO(TestHistory testHistory) {
+        return TestHistoryDTO.builder()
+                .id(testHistory.getId())
+                .testId(testHistory.getTestId())
+                .code(testHistory.getCode())
+                .title(testHistory.getTitle())
+                .startTime(testHistory.getStartTime())
+                .submitTime(testHistory.getSubmitTime())
+                .candidateId(testHistory.getUser().getId())
+                .candidateName(testHistory.getUser().getName())
+                .duration(testHistory.getDuration())
+                .score(testHistory.getScore())
+                .build();
+    }
+
+    public TestHistory testToTestHistory(Test test) {
+        return TestHistory.builder()
+                .id(test.getId())
+                .testId(test.getId())
+                .title(test.getTitle())
+                .startTime(test.getStartTime())
+                .code(test.getCode())
+                .duration(test.getDuration())
+                .user(test.getUser())
+                .score(0)
                 .build();
     }
 }
