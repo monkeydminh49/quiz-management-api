@@ -1,5 +1,6 @@
 package com.e01.quiz.controller;
 
+import com.e01.quiz.util.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Controller;
 public class ContestController {
 
     @MessageMapping("/chat")
-    @SendTo("/chat")
-    public String sendMessage(@Payload String chatMessage) {
+    @SendTo("/topic/public")
+    public Message sendMessage(@Payload Message chatMessage) {
+        System.out.println("helo");
+        System.out.println(chatMessage);
         return chatMessage;
     }
 
