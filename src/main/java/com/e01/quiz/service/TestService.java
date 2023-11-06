@@ -1,5 +1,7 @@
 package com.e01.quiz.service;
 
+import com.e01.quiz.dto.ChoiceDTO;
+import com.e01.quiz.dto.QuestionDTO;
 import com.e01.quiz.dto.TestDTO;
 import com.e01.quiz.entity.Choice;
 import com.e01.quiz.entity.Question;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,13 +55,19 @@ public class TestService {
         return test;
     }
 
-    public Test getUserTestById(String username, Long id) {
+    public Optional<Test> getUserTestById(String username, Long id) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
 
         if (!user.hasTest(id)) {
             throw new RuntimeException("User " + username + " does not have test with id " + id);
         }
-        return testRepository.findById(id).orElseThrow(() -> new RuntimeException("test not found"));
+        Optional<Test> optionalTest = testRepository.findById(id);
+        if (optionalTest.isPresent()){
+            return optionalTest;
+        } else {
+            throw new RuntimeException("test not found");
+        }
+
     }
 
 //    public Test updateTest(String username, Long id, TestDTO testDTO) {
@@ -124,18 +134,57 @@ public class TestService {
 //    }
 
     public Test updateTest(String username, Long id, TestDTO testDTO) {
-        Test test = getUserTestById(username, id);
-        test.setTitle(testDTO.getTitle());
-        test.setDuration(testDTO.getDuration());
-        test.setStartTime(testDTO.getStartTime());
-        // Delete old questions
-        questionService.deleteQuestionsByTestId(id);
+        Optional<Test> optionalTest = getUserTestById(username, id);
+        if (optionalTest.isPresent()) {
+            Test test = optionalTest.get();
+            test.setTitle(testDTO.getTitle());
 
-        // Add new questions
-        List<Question> newQuestions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
-        questionService.saveQuestions(newQuestions, test);
+            List<Question> updatedQuestions = new ArrayList<>();
+            for (QuestionDTO questionDTO : testDTO.getQuestions()) {
+                Question question;
+                if (questionDTO.getId() != null) {
+                    Optional<Question> optionalExistingQuestion = questionRepository.findById(questionDTO.getId());
+                    if (optionalExistingQuestion.isPresent()) {
+                        question = optionalExistingQuestion.get();
+                        question.setQuestion(questionDTO.getQuestion());
+                    } else {
+                        throw new NoSuchElementException("Question with ID " + questionDTO.getId() + " not found");
+                    }
+                } else {
+                    question = new Question();
+                    question.setQuestion(questionDTO.getQuestion());
+                }
 
-        return testRepository.save(test);
+                List<Choice> updatedChoices = new ArrayList<>();
+                for (ChoiceDTO choiceDTO : questionDTO.getChoices()) {
+                    Choice choice;
+                    if (choiceDTO.getId() != null) {
+                        Optional<Choice> optionalExistingChoice = choiceRepository.findById(choiceDTO.getId());
+                        if (optionalExistingChoice.isPresent()) {
+                            choice = optionalExistingChoice.get();
+                            choice.setContent(choiceDTO.getContent());
+                        } else {
+                            throw new NoSuchElementException("Choice with ID " + choiceDTO.getId() + " not found");
+                        }
+                    } else {
+                        choice = new Choice();
+                        choice.setContent(choiceDTO.getContent());
+                    }
+                    choice.setQuestion(question);
+                    updatedChoices.add(choice);
+                }
+
+                question.setChoices(updatedChoices);
+                question.setTest(test);
+                updatedQuestions.add(question);
+            }
+
+            test.setQuestions(updatedQuestions);
+
+            return testRepository.save(test);
+        } else {
+            throw new NoSuchElementException("Test with ID " + testDTO.getId() + " not found");
+        }
     }
 
     public Test getTestByCode(String code) {
@@ -143,7 +192,7 @@ public class TestService {
     }
 
     public void deleteTestById(String username, Long id) {
-        Test test = getUserTestById(username, id);
+        Test test = getUserTestById(username, id).get();
         questionService.deleteQuestionsByTestId(id);
         testRepository.delete(test);
     }

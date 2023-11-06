@@ -51,7 +51,7 @@ public class TestController {
     @GetMapping("/{id}")
     public TestDTO getUserTestById(Principal principal, @PathVariable Long id) {
         String username = principal.getName();
-        Test test = testService.getUserTestById(username, id);
+        Test test = testService.getUserTestById(username, id).get();
         return mapper.toDTO(test);
     }
 

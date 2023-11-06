@@ -48,6 +48,7 @@ public class Mapper {
 
     public Question toEntity(QuestionDTO questionDTO) {
         return Question.builder()
+                .id(questionDTO.getId())
                 .question(questionDTO.getQuestion())
                 .type(questionDTO.getType())
                 .choices(questionDTO.getChoices().stream().map(this::toEntity).toList())
@@ -59,12 +60,13 @@ public class Mapper {
                 .id(choice.getId())
                 .content(choice.getContent())
                 .isCorrect(choice.isCorrect())
-                .questionId(choice.getQuestion().getId())
+                .questionId(choice.getQuestion() != null ? choice.getQuestion().getId() : null)
                 .build();
     }
 
     public Choice toEntity(ChoiceDTO choiceDTO) {
         return Choice.builder()
+                .id(choiceDTO.getId())
                 .content(choiceDTO.getContent())
                 .isCorrect(choiceDTO.getIsCorrect())
                 .build();

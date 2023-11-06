@@ -37,7 +37,7 @@ public class QuestionService {
         questions.forEach(question -> {
             question.setTest(test);
         });
-        List<Question> savedQuestions =  repository.saveAll(questions);
+        List<Question> savedQuestions = repository.saveAll(questions);
         savedQuestions.forEach(question -> {
             choiceService.saveChoices(question.getChoices(), question);
         });
