@@ -31,6 +31,9 @@ public class QuestionService {
     }
 
     public void saveQuestions(List<Question> questions, Test test) {
+        if(questions == null || questions.isEmpty()){
+            return;
+        }
         questions.forEach(question -> {
             question.setTest(test);
         });
