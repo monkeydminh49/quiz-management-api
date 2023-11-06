@@ -39,7 +39,7 @@ public class Mapper {
     public QuestionDTO toDTO(Question question) {
         return QuestionDTO.builder()
                 .id(question.getId())
-                .testId(question.getTest().getId())
+                .testId(question.getTest() != null ? question.getTest().getId(): null)
                 .question(question.getQuestion())
                 .type(question.getType())
                 .choices(question.getChoices().stream().map(this::toDTO).toList())
@@ -48,7 +48,6 @@ public class Mapper {
 
     public Question toEntity(QuestionDTO questionDTO) {
         return Question.builder()
-                .id(questionDTO.getId())
                 .question(questionDTO.getQuestion())
                 .type(questionDTO.getType())
                 .choices(questionDTO.getChoices().stream().map(this::toEntity).toList())
@@ -66,7 +65,6 @@ public class Mapper {
 
     public Choice toEntity(ChoiceDTO choiceDTO) {
         return Choice.builder()
-                .id(choiceDTO.getId())
                 .content(choiceDTO.getContent())
                 .isCorrect(choiceDTO.getIsCorrect())
                 .build();
@@ -87,8 +85,8 @@ public class Mapper {
                 .title(testHistory.getTitle())
                 .startTime(testHistory.getStartTime())
                 .submitTime(testHistory.getSubmitTime())
-                .candidateId(testHistory.getUser().getId())
-                .candidateName(testHistory.getUser().getName())
+                .candidateId(testHistory.getUser() != null ? testHistory.getUser().getId(): null)
+                .candidateName(testHistory.getUser() != null ? testHistory.getUser().getName(): null)
                 .duration(testHistory.getDuration())
                 .score(testHistory.getScore())
                 .build();

@@ -35,4 +35,6 @@ public class Test {
     @JoinColumn(name = "user_id")
     private User user;
     private Long duration;
+
+
 }
