@@ -29,10 +29,27 @@ public class Test {
     private String code;
     private String title;
     private LocalDateTime startTime;
-    @OneToMany(mappedBy = "test", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "test")
     private List<Question> questions;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     private Long duration;
+    public void displayTest(){
+        System.out.println("Id: " + this.id);
+        System.out.println("Test: " + this.title);
+        System.out.println("Code: " + this.code);
+        System.out.println("Start time: " + this.startTime);
+        System.out.println("Duration: " + this.duration);
+        System.out.println("Questions: ");
+        this.questions.forEach(question -> {
+            System.out.println("Id: " + question.getId());
+            System.out.println("Question: " + question.getQuestion());
+            System.out.println("Type: " + question.getType());
+            System.out.println("Choices: ");
+            question.getChoices().forEach(choice -> {
+                System.out.println("Choice: " + choice);
+            });
+        });
+    }
 }
