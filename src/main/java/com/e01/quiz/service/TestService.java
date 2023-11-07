@@ -14,6 +14,7 @@ import com.e01.quiz.component.Mapper;
 import com.e01.quiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,9 @@ public class TestService {
         if (optionalTest.isPresent()) {
             Test test = optionalTest.get();
             test.setTitle(testDTO.getTitle());
+            test.setStartTime(testDTO.getStartTime());
+            test.setDuration(testDTO.getDuration());
+
             questionService.deleteQuestionsByTestId(id);
 
             List<Question> questions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
@@ -169,6 +173,7 @@ public class TestService {
         return testRepository.findByCode(code).orElseThrow(() -> new RuntimeException("test not found"));
     }
 
+    @Transactional
     public void deleteTestById(String username, Long id) {
         Test test = getUserTestById(username, id).get();
         questionService.deleteQuestionsByTestId(id);
