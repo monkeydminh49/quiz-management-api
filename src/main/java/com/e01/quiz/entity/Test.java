@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -29,7 +31,8 @@ public class Test {
     private String code;
     private String title;
     private LocalDateTime startTime;
-    @OneToMany(mappedBy = "test")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "test" , cascade = CascadeType.REMOVE)
     private List<Question> questions;
     @ManyToOne
     @JoinColumn(name = "user_id")
