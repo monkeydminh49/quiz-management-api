@@ -155,12 +155,12 @@ public class TestService {
 //                question.getChoices().removeAll(question.getChoices());
                 question.setChoices(new ArrayList<>());
                 question.getChoices().addAll(choices);
-                choiceRepository.saveAll(choices);
+//                choiceRepository.saveAll(choices);
             });
 
             test.getQuestions().removeAll(test.getQuestions());
             test.getQuestions().addAll(questions);
-            questionRepository.saveAll(questions);
+//            questionRepository.saveAll(questions);
 //            questionRepository.deleteAll(test.getQuestions());
 
             return testRepository.save(test);

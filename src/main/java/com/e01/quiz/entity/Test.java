@@ -32,7 +32,7 @@ public class Test {
     private String title;
     private LocalDateTime startTime;
 //    @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "test" , cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "test" , cascade = CascadeType.ALL)
     private List<Question> questions;
     @ManyToOne
     @JoinColumn(name = "user_id")

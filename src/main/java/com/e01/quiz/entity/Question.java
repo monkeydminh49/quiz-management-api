@@ -38,7 +38,7 @@ public class Question {
     private Test test;
 
 //    @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Choice> choices;
 
     public EQuestionType getType() {
