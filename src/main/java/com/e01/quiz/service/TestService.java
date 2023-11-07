@@ -134,52 +134,30 @@ public class TestService {
 //    }
 
     public Test updateTest(String username, Long id, TestDTO testDTO) {
-        Optional<Test> optionalTest = getUserTestById(username, id);
+        Optional<Test> optionalTest = testRepository.findById(id);
         if (optionalTest.isPresent()) {
             Test test = optionalTest.get();
             test.setTitle(testDTO.getTitle());
+            questionService.deleteQuestionsByTestId(id);
 
-            List<Question> updatedQuestions = new ArrayList<>();
-            for (QuestionDTO questionDTO : testDTO.getQuestions()) {
-                Question question;
-                if (questionDTO.getId() != null) {
-                    Optional<Question> optionalExistingQuestion = questionRepository.findById(questionDTO.getId());
-                    if (optionalExistingQuestion.isPresent()) {
-                        question = optionalExistingQuestion.get();
-                        question.setQuestion(questionDTO.getQuestion());
-                    } else {
-                        throw new NoSuchElementException("Question with ID " + questionDTO.getId() + " not found");
-                    }
-                } else {
-                    question = new Question();
-                    question.setQuestion(questionDTO.getQuestion());
-                }
-
-                List<Choice> updatedChoices = new ArrayList<>();
-                for (ChoiceDTO choiceDTO : questionDTO.getChoices()) {
-                    Choice choice;
-                    if (choiceDTO.getId() != null) {
-                        Optional<Choice> optionalExistingChoice = choiceRepository.findById(choiceDTO.getId());
-                        if (optionalExistingChoice.isPresent()) {
-                            choice = optionalExistingChoice.get();
-                            choice.setContent(choiceDTO.getContent());
-                        } else {
-                            throw new NoSuchElementException("Choice with ID " + choiceDTO.getId() + " not found");
-                        }
-                    } else {
-                        choice = new Choice();
-                        choice.setContent(choiceDTO.getContent());
-                    }
-                    choice.setQuestion(question);
-                    updatedChoices.add(choice);
-                }
-
-                question.setChoices(updatedChoices);
+            List<Question> questions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
+            questions.forEach(question -> {
                 question.setTest(test);
-                updatedQuestions.add(question);
-            }
+                List<Choice> choices = question.getChoices();
+                choices.forEach(choice -> {
+                    choice.setQuestion(question);
+                });
+//                System.out.println(question.getChoices().getClass());
+//                question.getChoices().removeAll(question.getChoices());
+                question.setChoices(new ArrayList<>());
+                question.getChoices().addAll(choices);
+                choiceRepository.saveAll(choices);
+            });
 
-            test.setQuestions(updatedQuestions);
+            test.getQuestions().removeAll(test.getQuestions());
+            test.getQuestions().addAll(questions);
+            questionRepository.saveAll(questions);
+//            questionRepository.deleteAll(test.getQuestions());
 
             return testRepository.save(test);
         } else {
