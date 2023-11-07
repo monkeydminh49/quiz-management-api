@@ -24,4 +24,8 @@ public class Choice {
     @ManyToOne
     @JoinColumn(name="question_id", nullable=false)
     private Question question;
+
+    public String toString() {
+        return "Choice(id=" + this.getId() + ", content=" + this.getContent() + ", isCorrect=" + this.isCorrect() + ")";
+    }
 }

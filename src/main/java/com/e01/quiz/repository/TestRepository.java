@@ -17,7 +17,7 @@ public interface TestRepository  extends JpaRepository<Test, Long> {
     @Query("SELECT t FROM Test t JOIN FETCH t.questions q WHERE t.user = :user")
     List<Test> getTestsForUser(@Param("user") User user);
 
-    @Query("SELECT t FROM Test t JOIN FETCH t.questions q JOIN FETCH q.choices WHERE t.id = :id")
+    @Query("SELECT t FROM Test t JOIN FETCH t.questions q WHERE t.id = :id")
     Optional<Test> findById(@Param("id") Long id);
 }
 

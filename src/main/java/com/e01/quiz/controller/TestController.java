@@ -27,7 +27,6 @@ public class TestController {
     public MappingResponse createTest(Principal principal, @RequestBody TestDTO testDTO) {
         String username = principal.getName();
         Test test = mapper.toEntity(testDTO);
-        System.out.println(testDTO.getQuestions().get(0).getType());
         Test createdTest = testService.createTest(username, test);
         return MappingResponse.builder()
                 .code(1)
@@ -52,7 +51,7 @@ public class TestController {
     @GetMapping("/{id}")
     public TestDTO getUserTestById(Principal principal, @PathVariable Long id) {
         String username = principal.getName();
-        Test test = testService.getUserTestById(username, id);
+        Test test = testService.getUserTestById(username, id).get();
         return mapper.toDTO(test);
     }
 

@@ -32,25 +32,26 @@ public class Mapper {
         return Test.builder()
                 .title(testDTO.getTitle())
                 .startTime(testDTO.getStartTime())
-                .questions(testDTO.getQuestions().stream().map(this::toEntity).toList())
+                .questions(testDTO.getQuestions() != null ? testDTO.getQuestions().stream().map(this::toEntity).toList() : null)
                 .duration(testDTO.getDuration())
                 .build();
     }
     public QuestionDTO toDTO(Question question) {
         return QuestionDTO.builder()
                 .id(question.getId())
-                .testId(question.getTest().getId())
+                .testId(question.getTest() != null ? question.getTest().getId(): null)
                 .question(question.getQuestion())
                 .type(question.getType())
-                .choices(question.getChoices().stream().map(this::toDTO).toList())
+                .choices(question.getChoices() != null ? question.getChoices().stream().map(this::toDTO).toList(): null)
                 .build();
     }
 
     public Question toEntity(QuestionDTO questionDTO) {
         return Question.builder()
+                .id(questionDTO.getId())
                 .question(questionDTO.getQuestion())
                 .type(questionDTO.getType())
-                .choices(questionDTO.getChoices().stream().map(this::toEntity).toList())
+                .choices(questionDTO.getChoices() != null ? questionDTO.getChoices().stream().map(this::toEntity).toList() : null)
                 .build();
     }
 
@@ -59,12 +60,13 @@ public class Mapper {
                 .id(choice.getId())
                 .content(choice.getContent())
                 .isCorrect(choice.isCorrect())
-                .questionId(choice.getQuestion().getId())
+                .questionId(choice.getQuestion() != null ? choice.getQuestion().getId() : null)
                 .build();
     }
 
     public Choice toEntity(ChoiceDTO choiceDTO) {
         return Choice.builder()
+                .id(choiceDTO.getId())
                 .content(choiceDTO.getContent())
                 .isCorrect(choiceDTO.getIsCorrect())
                 .build();
@@ -85,8 +87,8 @@ public class Mapper {
                 .title(testHistory.getTitle())
                 .startTime(testHistory.getStartTime())
                 .submitTime(testHistory.getSubmitTime())
-                .candidateId(testHistory.getUser().getId())
-                .candidateName(testHistory.getUser().getName())
+                .candidateId(testHistory.getUser() != null ? testHistory.getUser().getId() : null)
+                .candidateName(testHistory.getUser() != null ? testHistory.getUser().getName() : null)
                 .duration(testHistory.getDuration())
                 .score(testHistory.getScore())
                 .build();

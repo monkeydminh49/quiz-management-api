@@ -7,6 +7,7 @@ import com.e01.quiz.entity.Test;
 import com.e01.quiz.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,10 +32,13 @@ public class QuestionService {
     }
 
     public void saveQuestions(List<Question> questions, Test test) {
+        if(questions == null || questions.isEmpty()){
+            return;
+        }
         questions.forEach(question -> {
             question.setTest(test);
         });
-        List<Question> savedQuestions =  repository.saveAll(questions);
+        List<Question> savedQuestions = repository.saveAll(questions);
         savedQuestions.forEach(question -> {
             choiceService.saveChoices(question.getChoices(), question);
         });
@@ -46,11 +50,12 @@ public class QuestionService {
         repository.deleteAll(oldQuestions);
     }
 
+    @Transactional
     public void deleteQuestionsByTestId(Long testId) {
         List<Question> questions =  repository.findAllByTestId(testId);
         questions.forEach(question -> {
             choiceService.deleteChoicesByQuestionId(question.getId());
         });
-        repository.deleteAll(questions);
+//        repository.deleteAll(questions);
     }
 }

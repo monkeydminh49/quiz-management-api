@@ -4,6 +4,8 @@ package com.e01.quiz.entity;
 import com.e01.quiz.util.EQuestionType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,7 +37,8 @@ public class Question {
     @JoinColumn(name="test_id", nullable=false)
     private Test test;
 
-    @OneToMany(mappedBy = "question")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Choice> choices;
 
     public EQuestionType getType() {

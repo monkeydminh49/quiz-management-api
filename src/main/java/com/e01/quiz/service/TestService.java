@@ -1,5 +1,7 @@
 package com.e01.quiz.service;
 
+import com.e01.quiz.dto.ChoiceDTO;
+import com.e01.quiz.dto.QuestionDTO;
 import com.e01.quiz.dto.TestDTO;
 import com.e01.quiz.entity.Choice;
 import com.e01.quiz.entity.Question;
@@ -12,9 +14,12 @@ import com.e01.quiz.component.Mapper;
 import com.e01.quiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,13 +56,19 @@ public class TestService {
         return test;
     }
 
-    public Test getUserTestById(String username, Long id) {
+    public Optional<Test> getUserTestById(String username, Long id) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
 
         if (!user.hasTest(id)) {
             throw new RuntimeException("User " + username + " does not have test with id " + id);
         }
-        return testRepository.findById(id).orElseThrow(() -> new RuntimeException("test not found"));
+        Optional<Test> optionalTest = testRepository.findById(id);
+        if (optionalTest.isPresent()){
+            return optionalTest;
+        } else {
+            throw new RuntimeException("test not found");
+        }
+
     }
 
 //    public Test updateTest(String username, Long id, TestDTO testDTO) {
@@ -124,26 +135,47 @@ public class TestService {
 //    }
 
     public Test updateTest(String username, Long id, TestDTO testDTO) {
-        Test test = getUserTestById(username, id);
-        test.setTitle(testDTO.getTitle());
-        test.setDuration(testDTO.getDuration());
-        test.setStartTime(testDTO.getStartTime());
-        // Delete old questions
-        questionService.deleteQuestionsByTestId(id);
+        Optional<Test> optionalTest = testRepository.findById(id);
+        if (optionalTest.isPresent()) {
+            Test test = optionalTest.get();
+            test.setTitle(testDTO.getTitle());
+            test.setStartTime(testDTO.getStartTime());
+            test.setDuration(testDTO.getDuration());
 
-        // Add new questions
-        List<Question> newQuestions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
-        questionService.saveQuestions(newQuestions, test);
+            questionService.deleteQuestionsByTestId(id);
 
-        return testRepository.save(test);
+            List<Question> questions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
+            questions.forEach(question -> {
+                question.setTest(test);
+                List<Choice> choices = question.getChoices();
+                choices.forEach(choice -> {
+                    choice.setQuestion(question);
+                });
+//                System.out.println(question.getChoices().getClass());
+//                question.getChoices().removeAll(question.getChoices());
+                question.setChoices(new ArrayList<>());
+                question.getChoices().addAll(choices);
+                choiceRepository.saveAll(choices);
+            });
+
+            test.getQuestions().removeAll(test.getQuestions());
+            test.getQuestions().addAll(questions);
+            questionRepository.saveAll(questions);
+//            questionRepository.deleteAll(test.getQuestions());
+
+            return testRepository.save(test);
+        } else {
+            throw new NoSuchElementException("Test with ID " + testDTO.getId() + " not found");
+        }
     }
 
     public Test getTestByCode(String code) {
         return testRepository.findByCode(code).orElseThrow(() -> new RuntimeException("test not found"));
     }
 
+    @Transactional
     public void deleteTestById(String username, Long id) {
-        Test test = getUserTestById(username, id);
+        Test test = getUserTestById(username, id).get();
         questionService.deleteQuestionsByTestId(id);
         testRepository.delete(test);
     }
