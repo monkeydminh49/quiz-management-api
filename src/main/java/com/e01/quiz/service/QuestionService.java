@@ -7,6 +7,7 @@ import com.e01.quiz.entity.Test;
 import com.e01.quiz.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class QuestionService {
         repository.deleteAll(oldQuestions);
     }
 
+    @Transactional
     public void deleteQuestionsByTestId(Long testId) {
         List<Question> questions =  repository.findAllByTestId(testId);
         questions.forEach(question -> {
