@@ -3,6 +3,8 @@ package com.e01.quiz.controller;
 import com.e01.quiz.component.Mapper;
 import com.e01.quiz.dto.MappingResponse;
 import com.e01.quiz.dto.TestDTO;
+import com.e01.quiz.entity.Choice;
+import com.e01.quiz.entity.Question;
 import com.e01.quiz.entity.Test;
 import com.e01.quiz.service.TestService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,10 +26,24 @@ public class TestController {
     @Autowired
     private Mapper mapper;
 
+
     @PostMapping
     public MappingResponse createTest(Principal principal, @RequestBody TestDTO testDTO) {
         String username = principal.getName();
         Test test = mapper.toEntity(testDTO);
+//        test.setQuestions(new ArrayList<>());
+//        testDTO.getQuestions().forEach(questionDTO -> {
+//            Question question = mapper.toEntity(questionDTO);
+//            question.setTest(test);
+//            question.setChoices(new ArrayList<>());
+//            questionDTO.getChoices().forEach(choiceDTO -> {
+//                Choice choice = mapper.toEntity(choiceDTO);
+//                choice.setQuestion(question);
+//                question.getChoices().add(choice);
+//            });
+//            test.getQuestions().add(question);
+//        });
+
         Test createdTest = testService.createTest(username, test);
         return MappingResponse.builder()
                 .code(1)
