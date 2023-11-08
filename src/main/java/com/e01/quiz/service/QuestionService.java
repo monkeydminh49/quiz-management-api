@@ -56,6 +56,6 @@ public class QuestionService {
         questions.forEach(question -> {
             choiceService.deleteChoicesByQuestionId(question.getId());
         });
-//        repository.deleteAll(questions);
+        repository.deleteAll(questions);
     }
 }

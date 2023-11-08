@@ -174,6 +174,7 @@ public class TestService {
             });
 
             test.getQuestions().removeAll(test.getQuestions());
+//            test.setQuestions(new ArrayList<>());
             test.getQuestions().addAll(questions);
 //            questionRepository.saveAll(questions);
 //            questionRepository.deleteAll(test.getQuestions());
