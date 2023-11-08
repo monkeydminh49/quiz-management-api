@@ -50,6 +50,21 @@ public class TestService {
         String uniqueCode = testCodeGenerator.generateUniqueTestCode();
         test.setCode(uniqueCode);
         test.setUser(user);
+//        List<Question> questions = test.getQuestions();
+//        test.getQuestions().forEach(question -> {
+//            question.setTest(test);
+//            List<Choice> choices = question.getChoices();
+//            choices.forEach(choice -> {
+//                choice.setQuestion(question);
+//            });
+////                System.out.println(question.getChoices().getClass());
+////                question.getChoices().removeAll(question.getChoices());
+////            question.setChoices(new ArrayList<>());
+////            question.getChoices().addAll(choices);
+////                choiceRepository.saveAll(choices);
+//        });
+////        test.setQuestions(questions);
+//
         testRepository.save(test);
         questionService.saveQuestions(test.getQuestions(), test);
 
