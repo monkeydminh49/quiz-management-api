@@ -3,7 +3,7 @@ package com.e01.quiz.util;
 public class Message {
 
         private String from;
-        private String text;
+        private Object data;
 
     public String getFrom() {
         return from;
@@ -13,11 +13,16 @@ public class Message {
         this.from = from;
     }
 
-    public String getText() {
-        return text;
+    public Object getData() {
+        return data;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public String toString(){
+        return "From: " + this.getFrom()
+                + "\nData: " + this.getData().toString();
     }
 }

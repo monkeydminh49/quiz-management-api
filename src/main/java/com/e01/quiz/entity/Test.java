@@ -38,6 +38,8 @@ public class Test {
     @JoinColumn(name = "user_id")
     private User user;
     private Long duration;
+    private int numberOfLiveParticipant;
+
     public void displayTest(){
         System.out.println("Id: " + this.id);
         System.out.println("Test: " + this.title);
@@ -54,5 +56,19 @@ public class Test {
                 System.out.println("Choice: " + choice);
             });
         });
+    }
+
+    public void increaseNumberOfLiveParticipantByOne(){
+        this.numberOfLiveParticipant += 1;
+    }
+
+    public void decreaseNumberOfLiveParticipantByOne(){
+        if (this.numberOfLiveParticipant > 0){
+            this.numberOfLiveParticipant -= 1;
+        }
+    }
+
+    public String toString(){
+        return "Test(title=" + this.getTitle() + ")";
     }
 }
