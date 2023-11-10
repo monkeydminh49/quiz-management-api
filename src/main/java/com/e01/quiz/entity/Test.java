@@ -38,7 +38,7 @@ public class Test {
     @JoinColumn(name = "user_id")
     private User user;
     private Long duration;
-    private int numberOfLiveParticipant;
+    private Integer numberOfLiveParticipant;
 
     public void displayTest(){
         System.out.println("Id: " + this.id);
