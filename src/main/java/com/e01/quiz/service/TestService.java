@@ -195,4 +195,15 @@ public class TestService {
         questionService.deleteQuestionsByTestId(id);
         testRepository.delete(test);
     }
+
+    public Test increaseNumberOfLiveParticipantByOne(Long testId) {
+        Optional<Test> optionalTest = testRepository.findById(testId);
+        if (optionalTest.isPresent()){
+            Test test = optionalTest.get();
+            test.increaseNumberOfLiveParticipantByOne();
+            return test;
+        } else {
+            return new Test();
+        }
+    }
 }
