@@ -1,5 +1,9 @@
 package com.e01.quiz.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +26,9 @@ import java.util.List;
 @Table(
         name = "TEST"
 )
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Test {
     @Id
     @GeneratedValue(
@@ -59,10 +66,16 @@ public class Test {
     }
 
     public void increaseNumberOfLiveParticipantByOne(){
+        if (this.numberOfLiveParticipant == null){
+            this.numberOfLiveParticipant = 0;
+        }
         this.numberOfLiveParticipant += 1;
     }
 
     public void decreaseNumberOfLiveParticipantByOne(){
+        if (this.numberOfLiveParticipant == null){
+            this.numberOfLiveParticipant = 0;
+        }
         if (this.numberOfLiveParticipant > 0){
             this.numberOfLiveParticipant -= 1;
         }

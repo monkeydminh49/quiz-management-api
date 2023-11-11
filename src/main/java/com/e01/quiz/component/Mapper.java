@@ -24,6 +24,7 @@ public class Mapper {
                 .userId(test.getUser().getId())
                 .questions(test.getQuestions().stream().map(this::toDTO).toList())
                 .duration(test.getDuration())
+                .numberOfLiveParticipant(test.getNumberOfLiveParticipant())
                 .build();
     }
 

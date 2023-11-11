@@ -21,7 +21,7 @@ public class TestDTO {
     private LocalDateTime startTime;
     private List<QuestionDTO> questions;
     private Long duration;
-    private int numberOfLiveParticipant;
+    private Integer numberOfLiveParticipant;
 
     public List<QuestionDTO> getQuestions() {
         return questions != null ? questions : List.of();
