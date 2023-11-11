@@ -22,7 +22,6 @@ public class Message {
     }
 
     public String toString(){
-        return "From: " + this.getFrom()
-                + "\nData: " + this.getData().toString();
+        return "From: " + this.getFrom();
     }
 }

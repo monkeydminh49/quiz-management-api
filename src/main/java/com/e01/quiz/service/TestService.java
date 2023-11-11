@@ -72,11 +72,11 @@ public class TestService {
     }
 
     public Optional<Test> getUserTestById(String username, Long id) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
+//        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
 
-        if (!user.hasTest(id)) {
-            throw new RuntimeException("User " + username + " does not have test with id " + id);
-        }
+//        if (!user.hasTest(id)) {
+//            throw new RuntimeException("User " + username + " does not have test with id " + id);
+//        }
         Optional<Test> optionalTest = testRepository.findById(id);
         if (optionalTest.isPresent()){
             return optionalTest;
@@ -84,6 +84,9 @@ public class TestService {
             throw new RuntimeException("test not found");
         }
 
+    }
+    public Test saveTest(Test test){
+       return  testRepository.save(test);
     }
 
 //    public Test updateTest(String username, Long id, TestDTO testDTO) {
@@ -197,6 +200,7 @@ public class TestService {
     }
 
     public Test increaseNumberOfLiveParticipantByOne(Long testId) {
+
         Optional<Test> optionalTest = testRepository.findById(testId);
         if (optionalTest.isPresent()){
             Test test = optionalTest.get();

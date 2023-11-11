@@ -2,6 +2,7 @@ package com.e01.quiz.entity;
 
 
 import com.e01.quiz.util.EQuestionType;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -19,6 +20,9 @@ import java.util.List;
 @Table(
         name = "QUESTION"
 )
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Question {
     public Question(){
         this.type = EQuestionType.SINGLE_CHOICE;
