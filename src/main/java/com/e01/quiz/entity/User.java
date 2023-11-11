@@ -2,6 +2,7 @@ package com.e01.quiz.entity;
 
 
 import com.e01.quiz.util.UserRole;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Test> tests;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<TestHistory> testHistories;
 
     public boolean hasTest(Long id) {
