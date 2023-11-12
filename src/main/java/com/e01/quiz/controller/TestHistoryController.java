@@ -43,8 +43,8 @@ public class TestHistoryController {
         TestHistory testHistory = mapper.toEntity(testHistoryDTO);
         testHistory = testHistoryService.submitTest(username, testHistory);
         System.out.println("Destination: /topic/test/" + testHistory.getTestId());
-        template.convertAndSend("/topic/test/" + testHistory.getTestId(), new Message(username, testHistory, EMessageType.TEST_HISTORY));
         testHistoryDTO = mapper.toDTO(testHistory);
+        template.convertAndSend("/topic/test/" + testHistory.getTestId(), new Message(username, testHistoryDTO, EMessageType.TEST_HISTORY));
 
         return testHistoryDTO;
     }

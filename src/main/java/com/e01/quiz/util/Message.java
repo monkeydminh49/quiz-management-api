@@ -8,9 +8,9 @@ public class Message {
         private Object data;
         private EMessageType type;
 
-    public Message(String username, TestHistory testHistory, EMessageType eMessageType) {
+    public Message(String username, Object data, EMessageType eMessageType) {
         this.from = username;
-        this.data = testHistory;
+        this.data = data;
         this.type = eMessageType;
     }
 
