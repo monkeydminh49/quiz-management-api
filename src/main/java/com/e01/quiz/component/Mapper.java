@@ -96,7 +96,6 @@ public class Mapper {
 
     public TestHistory testToTestHistory(Test test) {
         return TestHistory.builder()
-                .id(test.getId())
                 .testId(test.getId())
                 .title(test.getTitle())
                 .startTime(test.getStartTime())
