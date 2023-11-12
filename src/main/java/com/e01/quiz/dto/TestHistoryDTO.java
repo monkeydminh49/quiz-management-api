@@ -22,4 +22,6 @@ public class TestHistoryDTO {
     private Long candidateId;
     private String candidateName;
     private LocalDateTime submitTime;
+
+
 }

@@ -46,8 +46,8 @@ public class TestHistoryService {
 //        // Define a custom date time formatter
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //        testHistory1.setSubmitTime(LocalDateTime.parse(zonedDateTime.format(formatter), formatter));
-        testHistoryRepository.save(testHistory1);
-        return testHistory1;
+        return testHistoryRepository.save(testHistory1);
+//        return testHistory1;
     }
 
     public List<TestHistory> getTestHistories(String username) {
@@ -58,4 +58,6 @@ public class TestHistoryService {
     public List<TestHistory> getTestHistoriesByTestId(String username, Long id) {
         return testHistoryRepository.findAllByTestId(id);
     }
+
+
 }
