@@ -1,10 +1,10 @@
 bezkoder:
   openapi:
     dev-url: http://localhost:8080
-    prod-url: http://13.212.194.205
+    prod-url: ${SPRING_DOMAIN_URL}
 spring:
   datasource:
-    url: jdbc:postgresql://13.212.194.205:5432/ptit
+    url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver

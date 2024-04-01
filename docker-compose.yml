@@ -1,12 +1,35 @@
 version: '3'
-
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
-    restart: always
+    container_name: dangminh-db
     ports:
-      - "5433:5432"
+      - "2003:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: minhdunk
+      POSTGRES_PASSWORD: dangminh49
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+  spring-boot-app:
+    image: monkeydminh49/quiz-ltw-api:1.0
+    container_name: dangminh-quiz-ltw-api
+    ports:
+      - "10049:8080"
+    volumes:
+      - ./media:/data/media/
+    environment:
+      SPRING_DOMAIN_URL: http://densach.edu.vn
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dangminh-db:5432/teaching_research
+      SPRING_DATASOURCE_USERNAME: minhdunk
+      SPRING_DATASOURCE_PASSWORD: dangminh49
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
