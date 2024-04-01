@@ -71,9 +71,8 @@ jobs:
         password: ${{ env.SSH_PASSWORD }}
         port: 22
         script: |
-          cd /home/proptit/dangminh/ltw_quiz
-          whoami
-#          ./deploy.sh
+          cd /home/minh/dangminh/ltw_quiz
+          ./deploy.sh
 #          docker compose -f docker-compose.yaml up -d
 #        script: |
 #          echo ${{ env.SSH_PASSWORD }} | sudo -S docker pull monkeydminh49/research-api:latest
