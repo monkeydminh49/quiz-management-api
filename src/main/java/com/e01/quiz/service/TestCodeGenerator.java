@@ -11,7 +11,7 @@ import java.util.Base64;
 public class TestCodeGenerator {
 
     private static final int CODE_LENGTH = 7;
-    private static final String CODE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String CODE_CHARS = "0123456789";
     private final SecureRandom secureRandom = new SecureRandom();
 
     @Autowired
