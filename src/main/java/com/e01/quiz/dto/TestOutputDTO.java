@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,17 +12,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TestDTO {
+public class TestOutputDTO {
     private Long id;
     private String code;
     private Long userId;
     private String title;
     private LocalDateTime startTime;
-    private List<QuestionDTO> questions;
+    private List<QuestionOutputDTO> questions;
     private Long duration;
     private Integer numberOfLiveParticipant;
 
-    public List<QuestionDTO> getQuestions() {
+    public List<QuestionOutputDTO> getQuestions() {
         return questions != null ? questions : List.of();
     }
 }

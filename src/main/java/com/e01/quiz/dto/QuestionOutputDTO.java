@@ -12,14 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class QuestionDTO {
+public class QuestionOutputDTO {
     private Long id;
     private Long testId;
     private EQuestionType type;
     private String question;
-    private List<ChoiceDTO> choices;
+    private List<ChoiceOutputDTO> choices;
 
-    public List<ChoiceDTO> getChoices() {
+    public List<ChoiceOutputDTO> getChoices() {
         return choices != null ? choices : List.of();
     }
 

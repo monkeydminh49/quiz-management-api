@@ -1,6 +1,6 @@
 package com.e01.quiz.controller;
 
-import com.e01.quiz.dto.QuestionDTO;
+import com.e01.quiz.dto.QuestionOutputDTO;
 import com.e01.quiz.entity.Question;
 import com.e01.quiz.service.QuestionService;
 import com.e01.quiz.component.Mapper;
@@ -25,14 +25,14 @@ public class QuestionController {
     private Mapper mapper;
 
     @GetMapping("/question")
-    public List<QuestionDTO> getQuestion() {
+    public List<QuestionOutputDTO> getQuestion() {
         List<Question> questions = questionService.getAllQuestions();
 
         return questions.stream().map(mapper::toDTO).toList();
     }
 
     @GetMapping("/question/{id}")
-    public QuestionDTO getQuestionById(@PathVariable Long id) {
+    public QuestionOutputDTO getQuestionById(@PathVariable Long id) {
         Question question = questionService.getQuestionById(id);
 
         return mapper.toDTO(question);

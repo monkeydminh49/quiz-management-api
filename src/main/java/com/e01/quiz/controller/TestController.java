@@ -2,10 +2,9 @@ package com.e01.quiz.controller;
 
 import com.e01.quiz.component.Mapper;
 import com.e01.quiz.dto.MappingResponse;
-import com.e01.quiz.dto.TestDTO;
-import com.e01.quiz.entity.Choice;
-import com.e01.quiz.entity.Question;
+import com.e01.quiz.dto.TestOutputDTO;
 import com.e01.quiz.entity.Test;
+import com.e01.quiz.mapper.TestMapper;
 import com.e01.quiz.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,56 +24,45 @@ public class TestController {
     @Autowired
     private Mapper mapper;
 
+    @Autowired
+    private TestMapper testMapper;
+
 
     @PostMapping
-    public MappingResponse createTest(Principal principal, @RequestBody TestDTO testDTO) {
+    public MappingResponse createTest(Principal principal, @RequestBody TestInputDTO testInputDTO) {
         String username = principal.getName();
-        Test test = mapper.toEntity(testDTO);
-//        test.setQuestions(new ArrayList<>());
-//        testDTO.getQuestions().forEach(questionDTO -> {
-//            Question question = mapper.toEntity(questionDTO);
-//            question.setTest(test);
-//            question.setChoices(new ArrayList<>());
-//            questionDTO.getChoices().forEach(choiceDTO -> {
-//                Choice choice = mapper.toEntity(choiceDTO);
-//                choice.setQuestion(question);
-//                question.getChoices().add(choice);
-//            });
-//            test.getQuestions().add(question);
-//        });
-
         Test createdTest = testService.createTest(username, test);
         return MappingResponse.builder()
                 .code(1)
-                .body(mapper.toDTO(createdTest))
+                .body(testMapper.getTestOutputDtoFromTest(createdTest))
                 .message("Create test successfully")
                 .build();
     }
 
     @GetMapping("/all")
-    public List<TestDTO> getTests(Principal principal) {
+    public List<TestOutputDTO> getTests(Principal principal) {
         String username = principal.getName();
         List<Test> tests = testService.getTests(username);
 
-        return tests.stream().map(mapper::toDTO).toList();
+        return testMapper.getTestOutputDtosFromTests(tests);
     }
     @GetMapping()
-    public TestDTO getTestByCode(@RequestParam String code) {
+    public TestOutputDTO getTestByCode(@RequestParam String code) {
         Test test = testService.getTestByCode(code);
-        return mapper.toDTO(test);
+        return testMapper.getTestOutputDtoFromTest(test);
     }
 
     @GetMapping("/{id}")
-    public TestDTO getUserTestById(Principal principal, @PathVariable Long id) {
+    public TestOutputDTO getUserTestById(Principal principal, @PathVariable Long id) {
         String username = principal.getName();
         Test test = testService.getUserTestById(username, id).get();
         return mapper.toDTO(test);
     }
 
     @PutMapping("/{id}")
-    public MappingResponse updateTest(Principal principal, @PathVariable Long id, @RequestBody TestDTO testDTO) {
+    public MappingResponse updateTest(Principal principal, @PathVariable Long id, @RequestBody TestDTO testOutputDTO) {
         String username = principal.getName();
-        Test test = testService.updateTest(username, id, testDTO);
+        Test test = testService.updateTest(username, id, testOutputDTO);
 
         return MappingResponse.builder()
                 .code(1)

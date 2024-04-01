@@ -29,16 +29,16 @@ public class Mapper {
     }
 
 
-    public Test toEntity(TestDTO testDTO) {
+    public Test toEntity(TestDTO testOutputDTO) {
         return Test.builder()
-                .title(testDTO.getTitle())
-                .startTime(testDTO.getStartTime())
-                .questions(testDTO.getQuestions() != null ? testDTO.getQuestions().stream().map(this::toEntity).toList() : null)
-                .duration(testDTO.getDuration())
+                .title(testOutputDTO.getTitle())
+                .startTime(testOutputDTO.getStartTime())
+                .questions(testOutputDTO.getQuestions() != null ? testOutputDTO.getQuestions().stream().map(this::toEntity).toList() : null)
+                .duration(testOutputDTO.getDuration())
                 .build();
     }
-    public QuestionDTO toDTO(Question question) {
-        return QuestionDTO.builder()
+    public QuestionOutputDTO toDTO(Question question) {
+        return QuestionOutputDTO.builder()
                 .id(question.getId())
                 .testId(question.getTest() != null ? question.getTest().getId(): null)
                 .question(question.getQuestion())
@@ -47,17 +47,17 @@ public class Mapper {
                 .build();
     }
 
-    public Question toEntity(QuestionDTO questionDTO) {
+    public Question toEntity(QuestionOutputDTO questionOutputDTO) {
         return Question.builder()
-                .id(questionDTO.getId())
-                .question(questionDTO.getQuestion())
-                .type(questionDTO.getType())
-                .choices(questionDTO.getChoices() != null ? questionDTO.getChoices().stream().map(this::toEntity).toList() : null)
+                .id(questionOutputDTO.getId())
+                .question(questionOutputDTO.getQuestion())
+                .type(questionOutputDTO.getType())
+                .choices(questionOutputDTO.getChoices() != null ? questionOutputDTO.getChoices().stream().map(this::toEntity).toList() : null)
                 .build();
     }
 
-    public ChoiceDTO toDTO(Choice choice) {
-        return ChoiceDTO.builder()
+    public ChoiceOutputDTO toDTO(Choice choice) {
+        return ChoiceOutputDTO.builder()
                 .id(choice.getId())
                 .content(choice.getContent())
                 .isCorrect(choice.isCorrect())
@@ -65,11 +65,11 @@ public class Mapper {
                 .build();
     }
 
-    public Choice toEntity(ChoiceDTO choiceDTO) {
+    public Choice toEntity(ChoiceOutputDTO choiceOutputDTO) {
         return Choice.builder()
-                .id(choiceDTO.getId())
-                .content(choiceDTO.getContent())
-                .isCorrect(choiceDTO.getIsCorrect())
+                .id(choiceOutputDTO.getId())
+                .content(choiceOutputDTO.getContent())
+                .isCorrect(choiceOutputDTO.getIsCorrect())
                 .build();
     }
 

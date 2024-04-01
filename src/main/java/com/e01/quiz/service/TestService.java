@@ -1,16 +1,15 @@
 package com.e01.quiz.service;
 
-import com.e01.quiz.dto.ChoiceDTO;
-import com.e01.quiz.dto.QuestionDTO;
-import com.e01.quiz.dto.TestDTO;
+import com.e01.quiz.component.Mapper;
+import com.e01.quiz.dto.TestOutputDTO;
 import com.e01.quiz.entity.Choice;
 import com.e01.quiz.entity.Question;
 import com.e01.quiz.entity.Test;
 import com.e01.quiz.entity.User;
+import com.e01.quiz.mapper.TestMapper;
 import com.e01.quiz.repository.ChoiceRepository;
 import com.e01.quiz.repository.QuestionRepository;
 import com.e01.quiz.repository.TestRepository;
-import com.e01.quiz.component.Mapper;
 import com.e01.quiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TestService {
@@ -38,15 +36,17 @@ public class TestService {
     @Autowired
     private ChoiceRepository choiceRepository;
     @Autowired
-    private Mapper mapper;
+    private TestMapper testMapper;
 
     public List<Test> getTests(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
         return testRepository.getTestsForUser(user);
     }
 
-    public Test createTest(String username, Test test) {
+    public Test createTest(String username, TestInputDTO test) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found"));
+        Test test = testMapper.getTestFromTestInputDto(testInputDTO);
+
         String uniqueCode = testCodeGenerator.generateUniqueTestCode();
         test.setCode(uniqueCode);
         test.setUser(user);
@@ -89,7 +89,7 @@ public class TestService {
        return  testRepository.save(test);
     }
 
-//    public Test updateTest(String username, Long id, TestDTO testDTO) {
+//    public Test updateTest(String username, Long id, TestOutputDTO testDTO) {
 //        // Find the user by username
 //        User user = userRepository.findByUsername(username)
 //                .orElseThrow(() -> new RuntimeException("User not found"));
@@ -152,17 +152,17 @@ public class TestService {
 //        return testRepository.save(test);
 //    }
 
-    public Test updateTest(String username, Long id, TestDTO testDTO) {
+    public Test updateTest(String username, Long id, TestOutputDTO testOutputDTO) {
         Optional<Test> optionalTest = testRepository.findById(id);
         if (optionalTest.isPresent()) {
             Test test = optionalTest.get();
-            test.setTitle(testDTO.getTitle());
-            test.setStartTime(testDTO.getStartTime());
-            test.setDuration(testDTO.getDuration());
+            test.setTitle(testOutputDTO.getTitle());
+            test.setStartTime(testOutputDTO.getStartTime());
+            test.setDuration(testOutputDTO.getDuration());
 
             questionService.deleteQuestionsByTestId(id);
 
-            List<Question> questions = testDTO.getQuestions().stream().map(mapper::toEntity).toList();
+            List<Question> questions = testOutputDTO.getQuestions().stream().map(mapper::toEntity).toList();
             questions.forEach(question -> {
                 question.setTest(test);
                 List<Choice> choices = question.getChoices();
@@ -184,7 +184,7 @@ public class TestService {
 
             return testRepository.save(test);
         } else {
-            throw new NoSuchElementException("Test with ID " + testDTO.getId() + " not found");
+            throw new NoSuchElementException("Test with ID " + testOutputDTO.getId() + " not found");
         }
     }
 

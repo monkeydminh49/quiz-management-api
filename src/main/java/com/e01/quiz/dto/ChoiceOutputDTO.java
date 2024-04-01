@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Builder
 @Component
-public class ChoiceDTO {
+public class ChoiceOutputDTO {
     private Long id;
     private String content;
     private Boolean isCorrect;
